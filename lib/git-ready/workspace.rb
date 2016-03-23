@@ -23,6 +23,7 @@ module Workspace
   Contract String, String => Any
   def self.clone(url, path)
     credentials = Rugged::Credentials::SshKeyFromAgent.new username: 'git'
+    Dir.mkdir path unless Dir.exist? path
     Rugged::Repository.clone_at(url, path, credentials: credentials) unless git_repository? path
   rescue Rugged::NetworkError
     Announce.failure "Failed to clone repository #{url} to path #{path}"
